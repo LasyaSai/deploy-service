@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: prod-api
+    env: docker
+    region: singapore   # Change to your nearest region
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: LOG_LEVEL
+        value: info
+      # APP_VERSION is injected by CI via --build-arg
+      - key: APP_VERSION
+        generateValue: false
+
+    # Auto-deploy from GHCR image
+    # Set RENDER_DEPLOY_HOOK_URL in GitHub Actions secrets

@@ -2,6 +2,13 @@ import request from 'supertest'
 import { app } from '../app'
 
 describe('GET /health', () => {
+  it('GET / returns service metadata', async () => {
+    const res = await request(app).get('/')
+    expect(res.status).toBe(200)
+    expect(res.body.service).toBe('prod-api')
+    expect(res.body.endpoints).toContain('/health')
+  })
+
   it('returns 200 with healthy status', async () => {
     const res = await request(app).get('/health')
     expect(res.status).toBe(200)

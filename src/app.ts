@@ -39,6 +39,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 // ── Health check ──────────────────────────────────────────────
+app.get('/', (_req: Request, res: Response) => {
+  res.json({
+    service: 'prod-api',
+    status: 'running',
+    endpoints: ['/health', '/ready', '/todos'],
+  })
+})
+
 app.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: 'healthy',

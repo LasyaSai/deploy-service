@@ -16,6 +16,3 @@ services:
       # APP_VERSION is injected by CI via --build-arg
       - key: APP_VERSION
         generateValue: false
-
-    # Auto-deploy from GHCR image
-    # Set RENDER_DEPLOY_HOOK_URL in GitHub Actions secrets

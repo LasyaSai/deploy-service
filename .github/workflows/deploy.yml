@@ -11,9 +11,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}/prod-api
 
 jobs:
-  # ──────────────────────────────────────────────────
-  # Job 1: Lint + Test
-  # ──────────────────────────────────────────────────
   test:
     name: Lint & Test
     runs-on: ubuntu-latest
@@ -45,10 +42,6 @@ jobs:
           path: coverage/
           retention-days: 7
 
-  # ──────────────────────────────────────────────────
-  # Job 2: Build & Push Docker image to GHCR
-  # Only on main branch push
-  # ──────────────────────────────────────────────────
   build-and-push:
     name: Build & Push Image
     runs-on: ubuntu-latest
@@ -99,9 +92,6 @@ jobs:
           build-args: |
             APP_VERSION=${{ github.sha }}
 
-  # ──────────────────────────────────────────────────
-  # Job 3: Deploy to Render via deploy hook
-  # ──────────────────────────────────────────────────
   deploy:
     name: Deploy to Render
     runs-on: ubuntu-latest
@@ -120,15 +110,17 @@ jobs:
             --fail \
             --retry 3
 
-      - name: Wait for deployment (60s)
-        run: sleep 60
-
-      - name: Smoke test — /health
+      - name: Smoke test /health
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ vars.RENDER_SERVICE_URL }}/health")
-          echo "Health check status: $STATUS"
-          if [ "$STATUS" != "200" ]; then
-            echo "::error::Health check failed with status $STATUS"
-            exit 1
-          fi
-          echo "✅ Deployment verified"
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ vars.RENDER_SERVICE_URL }}/health")
+            echo "Attempt $i: health check status $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "Deployment verified"
+              exit 0
+            fi
+            sleep 10
+          done
+
+          echo "::error::Health check failed after 5 minutes"
+          exit 1

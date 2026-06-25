@@ -75,7 +75,7 @@ git push origin <GOOD_COMMIT_SHA>:main --force-with-lease
 
 ### Step 1 — Confirm the outage
 
-- Check UptimeRobot alert: note the **exact timestamp** of the first failure.
+- Check UptimeRobot alert: note the **exact timestamp** of the first failure
 - Hit `GET /health` manually from your machine:
   ```bash
   curl -s https://your-service.onrender.com/health

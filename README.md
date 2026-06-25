@@ -44,7 +44,7 @@ Core endpoints:
 ## Stack
 
 - Node.js 20 and Express: lightweight HTTP API runtime with broad platform support.
-- TypeScript: adds type safety while keeping the implementation simple and easy to review.
+- TypeScript: adds type safety while keeping the implementation simple and easy to review
 - Jest and Supertest: verify health, readiness, CRUD behavior, validation, and 404 handling.
 - ESLint: enforces consistent TypeScript code quality in local development and CI.
 - Helmet and express-rate-limit: provide baseline HTTP hardening and request throttling.

@@ -90,7 +90,6 @@ git push origin <GOOD_COMMIT_SHA>:main --force-with-lease
 # Look for:
 # - OOM: {"level":"error","message":"JavaScript heap out of memory"}
 # - Crash loop: repeated "server.started" within seconds
-# - 5xx flood: many {"status":500} http.request entries
 ```
 
 ### Step 3 — Diagnose by symptom
